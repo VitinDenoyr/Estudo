@@ -1,0 +1,220 @@
+%%% ===== Meta ===== %%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{denplate}[Denplate Template]
+
+%%% ===== Packages ===== %%%
+% Core typography
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[brazilian]{babel}
+\usepackage{parskip}
+\usepackage{array, caption}
+\usepackage{xparse}
+\usepackage{ocgx2}
+\usepackage{contour}
+\usepackage{helvet}
+\usepackage{courier}
+
+% Math essentials
+\usepackage{amsmath, amssymb, dsfont}
+
+% Code formatting
+\usepackage{listings}
+\usepackage{seqsplit}
+\usepackage{mdframed}
+
+% Utilities
+\usepackage{titling}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage{mdframed}
+
+% Layout & visuals
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage[colorlinks=true]{hyperref}
+
+%%% ===== Styling ===== %%%
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{purple}{rgb}{0.8,0.1,0.9}
+
+\definecolor{colord1}{RGB}{20, 240, 20}
+\definecolor{colord2}{RGB}{20, 200, 20}
+\definecolor{colord3}{RGB}{250, 215, 0}
+\definecolor{colord4}{RGB}{240, 140, 45}
+\definecolor{colord5}{RGB}{255, 0, 0}
+\definecolor{colord6}{RGB}{255, 25, 125}
+\definecolor{colord7}{RGB}{255, 0, 255}
+\definecolor{colord8}{RGB}{218, 14, 212}
+\definecolor{colord9}{RGB}{133, 16, 157}
+\definecolor{colord10}{RGB}{0, 0, 0}
+%%% ===== Layout ===== %%%
+\geometry{
+    a4paper,
+    left=25mm,
+    right=25mm,
+    top=30mm,
+    bottom=30mm,
+    includefoot
+}
+\setlength{\droptitle}{-5em} % Title position
+
+%%% ===== Commands ===== %%%
+% Math shortcuts
+\newcommand{\expec}[1]{\mathbb{E}\left[ #1 \right]}
+\newcommand{\Real}{\mathbb{R}}
+\newcommand{\Natural}{\mathbb{N}}
+\newcommand{\Complex}{\mathbb{C}}
+\newcommand{\AlgBody}{\mathbb{F}}
+\newcommand{\Integer}{\mathbb{Z}}
+\newcommand{\indicator}[1]{\scalebox{1.2}{$\mathds{1}$}{\!#1}}
+\newcommand{\filename}[1]{\text{\scriptsize$\langle$#1$\rangle$}\void[-0.5]}
+\newcommand{\emaq}{\varepsilon_{\text{maq}}}
+\newcommand{\prob}[1]{\mathbb{P}\left(#1\right)}
+
+\newcommand{\lvl}[1]{%
+    \ifcase#1\relax
+        \textcolor{black}{Indefinida}% 0
+    \or
+        \textcolor{colord1}{Muito Fácil}% 1
+    \or
+        \textcolor{colord2}{Fácil}% 2
+    \or
+        \textcolor{colord3}{Padrão}% 3
+    \or
+        \textcolor{colord4}{Médio}% 4
+    \or
+        \textcolor{colord5}{Avançado}% 5
+    \or
+        \textcolor{colord6}{Difícil}% 6
+    \or
+        \textcolor{colord7}{Muito Difícil}% 7
+    \or
+        \textcolor{colord8}{Extremamente Difícil}% 8
+    \or
+        \textcolor{colord9}{Exagero}% 9
+    \or
+        \textcolor{colord10}{Impraticável}% 10
+    \else
+        \textcolor{black}{Indefinida}% Default
+    \fi
+}
+
+% Text formatting
+\newcommand{\void}[1][1.5]{\vspace{#1em}}
+
+\newcommand{\tl}{\\ \hline}
+
+\newcommand{\tb}[1][1]{\hspace*{#1em}}
+
+\newcommand{\tbp}[2][1]{% 
+  \hspace*{#1em}%
+  \begin{minipage}{\dimexpr\linewidth-#1em}%
+  #2
+  \end{minipage}%
+}
+
+\newcommand{\lin}{\rule{\linewidth}{0.4pt}}
+
+\newcommand{\till}{\sim}
+\newcommand{\til}{$\sim$}
+
+\newcommand{\enlarge}{\vphantom{\(\displaystyle\frac{1}{1}\)}}
+
+\NewDocumentCommand{\Table}{ O{} m }{%
+  \IfNoValueTF{#1}{
+    \begin{center}
+      \vspace{0.5em}
+      \begin{tabular}{|*{20}{c|}}
+        \hline
+        #2
+        \hline
+      \end{tabular}
+    \end{center}
+  }{
+    \begin{table}[h!]
+      \centering
+      \vspace{0.5em}
+      \begin{tabular}{|*{20}{c|}}
+        \hline
+        #2
+      \end{tabular}
+      \\[0.1em]
+      \small #1
+    \end{table}
+  }
+}
+
+\DeclareRobustCommand{\%}{{%
+  \mbox{%
+    \fontencoding{\encodingdefault}%
+    \fontfamily{jkp}%
+    \selectfont
+    \symbol{`\%}%
+  }%
+}}
+
+\newcommand{\spann}[1]{
+\tb[0.4] < \tb[-0.25] #1 \tb[-0.25] > \tb[0.4]}
+
+
+%%% ===== Environment ===== %%%
+% \tableofcontets: mostra seções do documento
+% begin{cases}: faz notação de sistemas
+% begin{itemize}: lista em itens
+% begin{enumerate}: lista em números
+% begin{description}: lista com descrições
+
+\lstnewenvironment{code}[1][Python]{\lstset{language=#1}}{}
+
+\lstset{
+  inputencoding=utf8,             
+  extendedchars=true,
+  literate=
+    {á}{{\'a}}1
+    {Á}{{\'A}}1
+    {é}{{\'e}}1
+    {É}{{\'E}}1
+    {í}{{\'i}}1
+    {Í}{{\'I}}1
+    {ó}{{\'o}}1
+    {Ó}{{\'O}}1
+    {ú}{{\'u}}1
+    {Ú}{{\'U}}1
+    {â}{{\^a}}1
+    {Â}{{\^A}}1
+    {ê}{{\^e}}1
+    {Ê}{{\^E}}1
+    {î}{{\^i}}1
+    {Î}{{\^I}}1
+    {ô}{{\^o}}1
+    {Ô}{{\^O}}1
+    {û}{{\^u}}1
+    {Û}{{\^U}}1
+    {ã}{{\~a}}1
+    {Ã}{{\~A}}1
+    {õ}{{\~o}}1
+    {Õ}{{\~O}}1
+    {ç}{{\c{c}}}1
+    {Ç}{{\c{C}}}1,
+  frame=tb,
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{purple},
+  commentstyle=\color{blue},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}

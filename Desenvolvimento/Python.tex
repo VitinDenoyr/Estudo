@@ -1647,32 +1647,26 @@ O gráfico acima apresenta diversas customizações e melhorias em relação ao 
 
 Além disso, inserimos um título, mudamos a cor e formato da linha e também foi inserida uma grade de fundo, proporcionando melhorias visuais muito mais agradáveis. Veja também que o gráfico é interativo em algumas coisas, como zoom e movimentação.
 
-\textbf{Código 4.2.3: Múltiplos gráficos lado a lado}
+\textbf{Código 4.2.3: Múltiplos gráficos com conversão de números para letras}
 
 \begin{code}
 import matplotlib.pyplot as plt
 import numpy as np
 
-x = np.linspace(0, 10, 100)
-y1 = np.sin(x)
-y2 = np.cos(x)
-
+x = np.linspace(0, 100, 20)
+y1 = np.round(2.5*np.sin(x)+2.5); y2 = np.round(2.5*np.cos(x*3)+2.5)
 fig, axs = plt.subplots(1, 2, figsize=(10, 4))
-axs[0].plot(x, y1)
-axs[0].set_title("Seno")
+for ax in axs:
+    ax.set_yticks(ticks=[0, 1, 2, 3, 4, 5], labels=["F", "E", "D", "C", "B", "A"])
 
-axs[1].plot(x, y2)
-axs[1].set_title("Cosseno")
-
-plt.tight_layout()
-plt.show()
+axs[0].plot(x, y1); axs[0].set_title("Desenho 1")
+axs[1].plot(x, y2); axs[1].set_title("Desenho 2")
+plt.tight_layout(); plt.show()
 \end{code}
 
-No código acima, conseguimos agora definir vários eixos e, por consequência, vários gráficos distintos, sendo mais um exemplo de modificação possível com Matplotlib.
+No código acima, conseguimos agora definir vários gráficos distintos e também adaptar a visualização dos eixos \(y\) deles, sendo mais um exemplo de modificações possíveis com Matplotlib.
 
-A biblioteca Matplotlib pode ser usada tanto para análises rápidas em notebooks quanto para geração de figuras publicáveis em artigos e relatórios científicos. Dominar suas funcionalidades básicas permite representar graficamente quase qualquer tipo de dado ou função de uma forma simples, rápida e muito fácil.
-
-Assim como o Scipy, a forma de trabalhar com ela é saber os comandos básicos e, com auxílio da \href{https://matplotlib.org/stable/index.html}{documentação}, explorar novos comandos e opções para seu uso em particular.
+A biblioteca Matplotlib pode ser usada tanto para análises rápidas em notebooks quanto para geração de figuras publicáveis em artigos e relatórios científicos. Dominar suas funcionalidades básicas permite representar graficamente quase qualquer tipo de dado ou função de uma forma simples, rápida e muito fácil. Assim como o Scipy, a forma de trabalhar com ela é saber os comandos básicos e, com auxílio da \href{https://matplotlib.org/stable/index.html}{documentação}, explorar novos comandos e opções para seu uso em particular.
 
 \newpage
 
